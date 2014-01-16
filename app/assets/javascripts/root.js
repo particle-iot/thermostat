@@ -1,77 +1,91 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
-var Page = function () {
-};
-Page.prototype = {
-    startup: function () {
-        $("#actual_temp_change_form .dial").knob({});
-        $("#desired_temp_change_form .dial").knob({
-            'release': function (v) {
-                console.info(v);
-                var form = $('#desired_temp_change_form').ajaxSubmit({ /* options */ });
-                var xhr = form.data('jqxhr');
-                xhr.done(function () {
-                    console.log("form submitted")
-                });
+(function ($) {
+
+    var Page = function () {
+        //
+    };
+    Page.prototype = {
+        startup: function () {
+            $("#actual_temp_change_form .dial").knob({});
+            $("#desired_temp_change_form .dial").knob({
+                'release': function (v) {
+                    console.info(v);
+                    var form = $('#desired_temp_change_form').ajaxSubmit({ /* options */ });
+                    var xhr = form.data('jqxhr');
+                    xhr.done(function () {
+                        console.log("form submitted")
+                    });
+                }
+            });
+
+            this.renderGraph();
+        },
+
+
+        pollServer: function () {
+
+        },
+
+
+        renderGraph: function () {
+
+            var starttime = (new Date()).getTime(),
+                step = 60 * 1000,
+                //endtime = starttime + (step * 60),
+                curTime = starttime;
+
+
+            //fake data
+            var sin = [],
+                cos = [];
+
+            for (var i = 0; i < 24; i += 0.25) {
+                curTime += step;
+                sin.push([curTime, (Math.sin(i) + 72) ]);
+                cos.push([curTime, ((Math.sin(i) * 0.50) + 72)  ]);
             }
-        });
 
-        this.renderGraph();
-    },
+            this.graph = $.plot("#realtime_graph", [
+                { data: sin, label: "desired temperature"},
+                { data: cos, label: "actual temperature"}
+            ], {
+                series: {
+                    lines: {
+                        show: true
+                    }
+                },
+                xaxes: [ { mode: "time" } ],
+                yaxis: {
+                    min: 65,
+                    max: 80
+                }
+            });
 
+        },
 
-    pollServer: function () {
+        updateGraph: function () {
+            // call this.graph.setupGrid() -- if the axes change
 
-    },
-
-
-    renderGraph: function () {
-
-        //fake data
-        var sin = [],
-            cos = [];
-
-        for (var i = 0; i < 14; i += 0.5) {
-            sin.push([i, Math.sin(i)]);
-            cos.push([i, Math.cos(i)]);
+            //
+            // this.graph.setData([ newData ]);
+            // this.graph.draw();
         }
 
-        var plot = $.plot("#realtime_graph", [
-            { data: sin, label: "sin(x)"},
-            { data: cos, label: "cos(x)"}
-        ], {
-            series: {
-                lines: {
-                    show: true
-                },
-                points: {
-                    show: true
-                }
-            },
-            grid: {
-                hoverable: true,
-                clickable: true
-            },
-            yaxis: {
-                min: -1.2,
-                max: 1.2
-            }
-        });
 
-    },
-
-    updateGraph: function () {
-
-    }
+    };
 
 
-};
-var page = new Page();
-
-// On Document Ready: Bind things to the
-$(page.startup.bind(page));
+    // -----
+    //
+    // -----
 
 
+    var page = new Page();
+
+    // On Document Ready: Bind things to the
+    $(page.startup.bind(page));
 
 
+})(jQuery);
