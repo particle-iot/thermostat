@@ -1,5 +1,6 @@
 #include "application.h"
 #include "Adafruit_LEDBackpack.h"
+#include <math.h>
 
 #define TEMP_SENSOR 0x27
 
@@ -39,14 +40,28 @@ void displayTemperature(void)
   matrix2.writeDisplay();
 }
 
+void saveTemperature()
+{
+  uint8_t values[2] = { 0, desiredTemperature & 0xff };
+  sFLASH_WriteBuffer(values, 0x80000, 2);
+}
+
+void loadTemperature()
+{
+  uint8_t values[2];
+  sFLASH_ReadBuffer(values, 0x80000, 2);
+  desiredTemperature = values[1];
+  displayTemperature();
+}
+
 int setTemperature(String t)
 {
+  // TODO more robust error handling
+  //      what if t is not a number
+  //      what if t is outside a sensible range, e.g., 55-85
   desiredTemperature = t.toInt();
-
   displayTemperature();
-
-  // TODO save desired temperature to external flash
-
+  saveTemperature();
   return desiredTemperature;
 }
 
@@ -80,22 +95,43 @@ void setup()
   Spark.variable("is_heat_on", &isHeatOn, BOOLEAN);
   Spark.variable("is_fan_on", &isFanOn, BOOLEAN);
 
-  // TODO read desired temperature from external flash
+  loadTemperature();
+
+  pinMode(A0, OUTPUT);
+  pinMode(A1, OUTPUT);
+  pinMode(A2, INPUT);
+  pinMode(A3, INPUT);
 
   Serial.begin(9600);
 }
 
 void loop()
 {
-  Wire.requestFrom(TEMP_SENSOR, 4);
-  Serial.print("Read temp sensor: ");
-  while (Wire.available())
+  static int wait = 1000;
+  if (!wait)
   {
-    unsigned char b = Wire.read();
-    Serial.print(b);
-    Serial.write(' ');
+    wait = 1000;
+
+    Wire.requestFrom(TEMP_SENSOR, 4);
+
+    int humidity = (Wire.read() << 8) & 0x3f00;
+    humidity |= Wire.read();
+    float percentHumidity = humidity / 163.83;
+    Serial.print("Relative humidity is ");
+    Serial.println(percentHumidity);
+
+    int temp = (Wire.read() << 6) & 0x3fc0;
+    temp |= Wire.read() >> 2;
+    temp *= 165;
+    float fTemp = temp / 16383.0 - 40.0;
+    currentTemperature = roundf(fTemp);
+    Serial.print("Temperature is ");
+    Serial.println(fTemp);
   }
-  Serial.println("");
-  // currentTemperature = ??
-  delay(800);
+
+  int pot = analogRead(A2);
+  digitalWrite(A0, pot >> 11);
+  digitalWrite(A1, digitalRead(A3));
+
+  --wait;
 }
