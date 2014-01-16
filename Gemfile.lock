@@ -50,6 +50,9 @@ GEM
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
     hike (1.2.3)
+    httparty (0.12.0)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.9)
     journey (1.0.4)
     jquery-rails (3.0.4)
@@ -66,6 +69,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     multi_json (1.8.4)
+    multi_xml (0.5.5)
     polyglot (0.3.3)
     pry (0.9.12.4)
       coderay (~> 1.0)
@@ -152,6 +156,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   factory_girl_rails
+  httparty
   jquery-rails
   letter_opener
   pry-byebug

@@ -6,6 +6,8 @@ gem 'rails', '3.2.14'
 gem 'sqlite3' # todo replace with gem 'mongoid' or postgres
 gem 'jquery-rails'
 gem 'sidekiq'
+gem 'httparty'
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   # gem 'coffee-rails', '~> 3.2.1'

@@ -58,5 +58,11 @@ module DiyThermostat
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.thermostat_settings = ActiveSupport::OrderedOptions.new
+    config.thermostat_settings.spark_api_base_uri_prefix = "https://api.spark.io"
+    config.thermostat_settings.sparkcore_device_id = "TODO"
+    config.thermostat_settings.sparkcore_username = "joe@spark.io"
+    config.thermostat_settings.sparkcore_password = "oconom667!"
   end
 end
