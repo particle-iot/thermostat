@@ -20,7 +20,7 @@
                 }
             });
 
-            this.renderGraph();
+            this.getGraphData(this.renderGraph.bind(this));
         },
 
 
@@ -28,40 +28,60 @@
 
         },
 
+        getGraphData: function (callback) {
 
-        renderGraph: function () {
+            //maybe like call an endpoint or something
+
+            var fakedata = this.makeFakeGraphData();
+            setTimeout(function () {
+                callback(fakedata);
+            }, 250);
+        },
+
+        makeFakeGraphData: function () {
+            //fake data
+            var desired = [],
+                actual = [];
 
             var starttime = (new Date()).getTime(),
                 step = 60 * 1000,
-                //endtime = starttime + (step * 60),
                 curTime = starttime;
-
-
-            //fake data
-            var sin = [],
-                cos = [];
 
             for (var i = 0; i < 24; i += 0.25) {
                 curTime += step;
-                sin.push([curTime, (Math.sin(i) + 72) ]);
-                cos.push([curTime, ((Math.sin(i) * 0.50) + 72)  ]);
+                desired.push([curTime, (Math.sin(i) * 0.75) + 72 ]);
+                actual.push([curTime, (Math.sin(i) * 0.4) + 72  ]);
             }
 
-            this.graph = $.plot("#realtime_graph", [
-                { data: sin, label: "desired temperature"},
-                { data: cos, label: "actual temperature"}
-            ], {
-                series: {
-                    lines: {
-                        show: true
+            return {
+                "desired": desired,
+                "actual": actual
+            }
+        },
+
+
+        renderGraph: function (data) {
+
+            //TODO: calculate min/max?
+
+            this.graph = $.plot("#realtime_graph",
+                [
+                    { data: data.desired, label: "desired temperature"},
+                    { data: data.actual, label: "actual temperature"}
+                ],
+                {
+                    series: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                    xaxes: [
+                        { mode: "time" }
+                    ],
+                    yaxis: {
+                        autoscaleMargin: 1.5
                     }
-                },
-                xaxes: [ { mode: "time" } ],
-                yaxis: {
-                    min: 65,
-                    max: 80
-                }
-            });
+                });
 
         },
 
