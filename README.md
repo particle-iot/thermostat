@@ -1,22 +1,45 @@
-diy_nest
-========
+DIY Internet-Connected Thermostat
+=================================
 
-A place for all things related to ye olde Spark DIY Nest Hackathon
+## What we need
 
-
-## Possible Project Components
-
-### Software
+* Hardware
+  * Enclosure
+    * Wooden case
+    * Mounting backplate
+    * Acrylic faceplate
+  * Electronics
+    * Sensor board
+    * Relay board
+    * Display
+    * Spark Core
 * Firmware
-* Front end Web APP: For showning previous values of utility functions + "thumbs down"ing
-* Machine Learning App: For doing the machine learning stuff and populating a database of output variables.
-* Backend API controller/poller: For reflecting on the machine learning data, polling the core, and instructing it to do stuff.
+  * PID loop
+  * Sensors
+    * Temperature
+    * Humidity
+    * PIR
+  * User input
+  * Display
+  * Communications
+* Server
+  * Web UI
+  * Thermostat controller
+  * Thermostat listener
+  * Machine learning
 
-### Hardware/Physical
-* Enclosure
-* Thermostat Hacking + Research
-* Circuit design
-* Circuit implementation
+## Hardware
+
+The thermostat display is composed of 3
+[Adafruit Mini 8x8 LED Matrix boards](http://www.adafruit.com/products/870#Technical_Details).
+
+The temperature and humidity are sensed using a
+[Honeywell HIH6131-021-001](http://www.digikey.com/product-detail/en/HIH6131-021-001/480-3652-6-ND/2704706).
+
+These are all controlled by the Spark Core using a
+common I2C bus where pin D0 is SDA and pin D1 is SCL.
+The displays (from left to right) are on I2C addresses
+0x70, 0x71, and 0x72.
 
 ### Testing/Integrationy things
 
