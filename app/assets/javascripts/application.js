@@ -13,4 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.knob
+//= require jquery.form
 //= require_tree .

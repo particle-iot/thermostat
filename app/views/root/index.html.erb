@@ -1,3 +1,12 @@
-<form action="web_event" id="desired_temp_change_form">
-  <input type="text" value="75" class="dial">
+<h2>Desired Temp</h2>
+<form action="web_event" id="desired_temp_change_form" method="POST">
+  <input name="web_event[event_type]" type="hidden" value="desired_temp_change">
+  <input name="web_event[integer_value]" type="text" data-step="1" data-min="50" data-max="90" data-displayPrevious=true value="68" class="dial">
 </form>
+
+<hr />
+<h2>Actual Temp</h2>
+<form id="actual_temp_change_form">
+  <input name="web_event[integer_value]" type="text" value="75" class="dial">
+</form>
+
