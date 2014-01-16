@@ -61,8 +61,10 @@ module DiyThermostat
 
     config.thermostat_settings = ActiveSupport::OrderedOptions.new
     config.thermostat_settings.api_base_uri_prefix = "https://api.spark.io"
-    config.thermostat_settings.device_id = "55ff70064989495339432587" # "pizza_jester"
-    config.thermostat_settings.access_token = "b5e5a49521def21d2f0a6c061fa4bf73cae7166e" # will be set the first time we run
+    raise "YOU MUST SET SPARK_CORE_DEVICE_ID" unless ENV.has_key?('SPARK_CORE_DEVICE_ID')
+    raise "YOU MUST SET SPARK_CORE_DEVICE_ID" unless ENV.has_key?('SPARK_CORE_ACCESS_TOKEN')
+    config.thermostat_settings.device_id = ENV['SPARK_CORE_DEVICE_ID']
+    config.thermostat_settings.access_token = ENV["SPARK_CORE_ACCESS_TOKEN"]
     # config.thermostat_settings.sparkcore_username = "joe@spark.io"
     # config.thermostat_settings.sparkcore_password = "oconom667!"
   end

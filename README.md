@@ -61,9 +61,12 @@ In one terminal:
 
     redis-server
 
+
 In another terminal:
 
-    foreman start
+    script/start_server.sh
+
+* Note: You'll need to change the SPARK_CORE_DEVICE_ID and SPARK_CORE_ACCESS_TOKEN env vars to work for you.
 
 Hit `http://localhost:5000` in a browser (NOTE, NOT :3000 like normal rails apps)
 
