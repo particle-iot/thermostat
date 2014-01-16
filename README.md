@@ -49,7 +49,7 @@ Instructions below are for OS X.
 
 ### Dependencies
 
-* Ruby 2.0 (recommended to use rvm, rbenv, chruby, or other ruby version manager)
+* Ruby 2.0 (recommended to use rvm, rbenv, chruby, or other ruby version manager) (this app is ruby-2.0.0-p247)
 * bundler: `gem install bundler`
 * Install redis: `brew install redis`
 * Install foreman: download package from here https://github.com/ddollar/foreman
@@ -60,7 +60,6 @@ Instructions below are for OS X.
 In one terminal:
 
     redis-server
-
 
 In another terminal:
 
