@@ -8,6 +8,9 @@ class CreateWebEvents < ActiveRecord::Migration
       t.string :string_value
       t.text :hash_value
 
+      t.text :core_json_response
+      t.integer :core_json_http_status
+
       t.timestamps
     end
   end

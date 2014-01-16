@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(:version => 20140116175049) do
     t.float    "float_value"
     t.string   "string_value"
     t.text     "hash_value"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.text     "core_json_response"
+    t.integer  "core_json_http_status"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
 end
