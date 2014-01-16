@@ -60,9 +60,10 @@ module DiyThermostat
     config.assets.version = '1.0'
 
     config.thermostat_settings = ActiveSupport::OrderedOptions.new
-    config.thermostat_settings.spark_api_base_uri_prefix = "https://api.spark.io"
-    config.thermostat_settings.sparkcore_device_id = "TODO"
-    config.thermostat_settings.sparkcore_username = "joe@spark.io"
-    config.thermostat_settings.sparkcore_password = "oconom667!"
+    config.thermostat_settings.api_base_uri_prefix = "https://api.spark.io"
+    config.thermostat_settings.device_id = "55ff70064989495339432587" # "pizza_jester"
+    config.thermostat_settings.access_token = "b5e5a49521def21d2f0a6c061fa4bf73cae7166e" # will be set the first time we run
+    # config.thermostat_settings.sparkcore_username = "joe@spark.io"
+    # config.thermostat_settings.sparkcore_password = "oconom667!"
   end
 end
