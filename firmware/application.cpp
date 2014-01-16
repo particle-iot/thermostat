@@ -1,6 +1,8 @@
 #include "application.h"
 #include "Adafruit_LEDBackpack.h"
 
+#define TEMP_SENSOR 0x27
+
 Adafruit_8x8matrix matrix1;
 Adafruit_8x8matrix matrix2;
 Adafruit_8x8matrix matrix3;
@@ -43,6 +45,8 @@ int setTemperature(String t)
 
   displayTemperature();
 
+  // TODO save desired temperature to external flash
+
   return desiredTemperature;
 }
 
@@ -76,13 +80,22 @@ void setup()
   Spark.variable("is_heat_on", &isHeatOn, BOOLEAN);
   Spark.variable("is_fan_on", &isFanOn, BOOLEAN);
 
-  setTemperature("72");
-  delay(400);
-  setTemperature("69");
-  delay(400);
-  setTemperature("75");
+  // TODO read desired temperature from external flash
+
+  Serial.begin(9600);
 }
 
 void loop()
 {
+  Wire.requestFrom(TEMP_SENSOR, 4);
+  Serial.print("Read temp sensor: ");
+  while (Wire.available())
+  {
+    unsigned char b = Wire.read();
+    Serial.print(b);
+    Serial.write(' ');
+  }
+  Serial.println("");
+  // currentTemperature = ??
+  delay(800);
 }
