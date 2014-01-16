@@ -36,13 +36,6 @@ GEM
       columnize (~> 0.3.6)
       debugger-linecache (~> 1.2.0)
     coderay (1.1.0)
-    coffee-rails (3.2.2)
-      coffee-script (>= 2.2.0)
-      railties (~> 3.2.0)
-    coffee-script (2.2.0)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.6.3)
     columnize (0.3.6)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
@@ -145,7 +138,6 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
-  coffee-rails (~> 3.2.1)
   factory_girl_rails
   jquery-rails
   letter_opener
