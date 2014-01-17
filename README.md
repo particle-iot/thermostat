@@ -75,7 +75,6 @@ Hit `http://localhost:5000` in a browser
 
 ### Bomb and rebuild dev environment
 
-
 Remove sqlite database:
 
     rm db/development.sqlite3
@@ -98,3 +97,6 @@ You can put `binding.pry` pretty much anywhere in the code to bring up an intera
 Then hit a brower make or whatever, and in the terminal where the start_server.sh script ran, you can type commands (like a var name) and see their value, etc.
 
 The "SQLite Professional Read-Only" OS X app is a nice free app to look at the data the app is generating in real time.
+
+
+
