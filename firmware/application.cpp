@@ -72,7 +72,11 @@ int setTemperatureFromString(String t)
 {
   // TODO more robust error handling
   //      what if t is not a number
-  //      what if t is outside a sensible range, e.g., 55-85
+  //      what if t is outside 50-90 range
+
+  Serial.print("Setting desired temp from web to ");
+  Serial.println(t);
+
   return setTemperature(t.toInt());
 }
 
@@ -141,7 +145,7 @@ void loop()
     Serial.println(fTemp);
   }
 
-  int pot = analogRead(POT_PIN);
+  int pot = 4095 - analogRead(POT_PIN);
   if (1000 == wait)
   {
     Serial.print("Potentiometer reading: ");
@@ -149,12 +153,16 @@ void loop()
   }
 
   // If user has adjusted the potentiometer
-  if (fabsf(pot - lastChangedPot) > 16)
+  if (fabsf(pot - lastChangedPot) > 64)
   {
-    // If we're not booting up
+    // Don't set temp on boot
     if (lastChangedPot >= 0)
     {
-      setTemperature(roundf(pot * (40.0/4095.0) + 50.0));
+      // map 0-4095 pot range to 50-90 temperature range
+      int t = roundf(pot * (40.0/4095.0) + 50.0);
+      setTemperature(t);
+      Serial.print("Setting desired temp based on potentiometer to ");
+      Serial.println(t);
     }
     lastChangedPot = pot;
   }
