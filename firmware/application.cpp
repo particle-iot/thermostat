@@ -29,7 +29,7 @@ int desiredTemperature = 0;
 bool isHeatOn = false;
 bool isFanOn = false;
 
-int lastChangedPot = -20;
+int lastChangedPot = -80;
 
 void displayTemperature(void)
 {
@@ -129,9 +129,15 @@ void loop()
   {
     wait = 1000;
 
+    Wire.beginTransmission(TEMP_SENSOR);
+    Wire.endTransmission();
+    delay(40);
     Wire.requestFrom(TEMP_SENSOR, 4);
+    uint8_t b = Wire.read();
+    Serial.print("I2C Status bits are ");
+    Serial.println(b >> 6);
 
-    int humidity = (Wire.read() << 8) & 0x3f00;
+    int humidity = (b << 8) & 0x3f00;
     humidity |= Wire.read();
     float percentHumidity = humidity / 163.83;
     Serial.print("Relative humidity is ");
