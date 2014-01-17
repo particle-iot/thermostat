@@ -7,7 +7,7 @@
 #define HEAT_PIN    A1
 #define POT_PIN     A2
 #define PIR_PIN     A3
-#define DESIRED_TEMP_FLASH_ADDRESS 0x80400
+#define DESIRED_TEMP_FLASH_ADDRESS 0x80000
 
 Adafruit_8x8matrix matrix1;
 Adafruit_8x8matrix matrix2;
@@ -28,6 +28,7 @@ int currentTemperature = 0;
 int desiredTemperature = 0;
 bool isHeatOn = false;
 bool isFanOn = false;
+bool motionDetected = false;
 
 int lastChangedPot = -80;
 
@@ -49,16 +50,18 @@ void displayTemperature(void)
 
 void saveTemperature()
 {
+  sFLASH_EraseSector(DESIRED_TEMP_FLASH_ADDRESS);
   Serial.println("Saving temperature to flash");
-  sFLASH_WriteByte(DESIRED_TEMP_FLASH_ADDRESS, (uint8_t)desiredTemperature);
+  uint8_t values[2] = { (uint8_t)desiredTemperature, 0 };
+  sFLASH_WritePage(values, DESIRED_TEMP_FLASH_ADDRESS, 2);
 }
 
 void loadTemperature()
 {
   Serial.println("Loading and displaying temperature from flash");
-  uint8_t temp;
-  sFLASH_ReadBuffer(&temp, DESIRED_TEMP_FLASH_ADDRESS, 1);
-  desiredTemperature = temp;
+  uint8_t values[2];
+  sFLASH_ReadBuffer(values, DESIRED_TEMP_FLASH_ADDRESS, 2);
+  desiredTemperature = values[0];
   displayTemperature();
 }
 
@@ -112,19 +115,19 @@ void setup()
   Spark.variable("is_heat_on", &isHeatOn, BOOLEAN);
   Spark.variable("is_fan_on", &isFanOn, BOOLEAN);
 
+  Serial.begin(9600);
+
   loadTemperature();
 
   pinMode(FAN_PIN, OUTPUT);
   pinMode(HEAT_PIN, OUTPUT);
   pinMode(POT_PIN, INPUT);
   pinMode(PIR_PIN, INPUT);
-
-  Serial.begin(9600);
 }
 
 void loop()
 {
-  static int wait = 1000;
+  static int wait = 0;
   if (!wait)
   {
     wait = 1000;
@@ -158,6 +161,15 @@ void loop()
   {
     Serial.print("Potentiometer reading: ");
     Serial.println(pot);
+
+    Serial.print("PIR reading: ");
+    Serial.println(analogRead(PIR_PIN));
+  }
+
+  if (3550 < analogRead(PIR_PIN))
+  {
+    motionDetected = true;
+    // lean more toward comfort than energy efficiency
   }
 
   // If user has adjusted the potentiometer
@@ -175,10 +187,12 @@ void loop()
     lastChangedPot = pot;
   }
 
-  digitalWrite(HEAT_PIN, desiredTemperature > currentTemperature);
+  isHeatOn = desiredTemperature > currentTemperature;
+  digitalWrite(HEAT_PIN, isHeatOn);
 
-  // placeholder nonsense... probably need to attach interrupt to PIR
-  digitalWrite(FAN_PIN, digitalRead(PIR_PIN));
+  // just run them at the same time for now
+  isFanOn = isHeatOn;
+  digitalWrite(FAN_PIN, isFanOn);
 
   --wait;
 }
