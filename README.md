@@ -69,4 +69,4 @@ When developing, it's nice to be able to destroy everything and start fresh when
 
 ### What's Next?
 
-Get your hack on, :), have fun. If you do something cool with anything in here, consider sharing it on the [community site](community.sparkdevices.com).
+Get your hack on, :), have fun. If you do something cool with anything in here, consider sharing it on the [community site](http://community.sparkdevices.com).
