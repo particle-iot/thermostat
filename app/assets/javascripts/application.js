@@ -18,6 +18,7 @@
 // Visualization Stuff
 //= require moment.min
 //= require jquery.flot
+//= require jquery.flot.time
 // 
 // NOTE: INCLUDE WHATEVER YOU NEED HERE
 // jquery.flot.canvas.js		jquery.flot.js			jquery.flot.symbol.js
