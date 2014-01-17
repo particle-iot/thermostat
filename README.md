@@ -1,32 +1,7 @@
-DIY Internet-Connected Thermostat
-=================================
+Spark Open Source Thermostat
+============================
 
-## What we need
-
-* Hardware
-  * Enclosure
-    * Wooden case
-    * Mounting backplate
-    * Acrylic faceplate
-  * Electronics
-    * Sensor board
-    * Relay board
-    * Display
-    * Spark Core
-* Firmware
-  * PID loop
-  * Sensors
-    * Temperature
-    * Humidity
-    * PIR
-  * User input
-  * Display
-  * Communications
-* Server
-  * Web UI
-  * Thermostat controller
-  * Thermostat listener
-  * Machine learning
+This repo contains all of the software goodies produced in a Spark Team Hackaton described in detail on the [Spark Blog](http://blog.spark.io/2014/01/17/open-source-thermostat).
 
 ## Hardware
 
@@ -41,11 +16,20 @@ common I2C bus where pin D0 is SDA and pin D1 is SCL.
 The displays (from left to right) are on I2C addresses
 0x70, 0x71, and 0x72.
 
+## Firmware
+
+To build firmware for this product, you'll first need to be able to build Spark Core firmware by following the instructions
+[shown here](https://github.com/spark/core-firmware).
+
+Once you have that working, you can simply copy all of the files from `/firmware` in this repo into `core-firmware/src` and run `make` again to build.  (i.e. `cp thermostat/firmware/* core-firmware/src`)
+
 ## Server Setup
 
-The server components of this app is a Rails 3.2 app designed to be deployed to Heroku.
-We use sidekiq for background job processing.
-Instructions below are for OS X.
+The server components are:
+* a Rails 3.2 app
+* Sidekiq and Redis for background job processing
+
+Development was done on OS X.
 
 ### Dependencies
 
@@ -65,31 +49,12 @@ In one terminal:
 
 In another terminal:
 
-    script/start_server.sh
+    bash script/start_server.sh
 
 * Note: You might need to change the SPARK_CORE_DEVICE_ID and SPARK_CORE_ACCESS_TOKEN env vars in this .sh file
   for this to work.
 
 Hit `http://localhost:5000` in a browser
-
-
-### Bomb and rebuild dev environment
-
-Remove sqlite database:
-
-    rm db/development.sqlite3
-
-Flush everything from Redis
-
-    redis-cli FLUSHALL
-
-Rebuild the database
-
-    bundle exec rake db:migrate
-
-Fire up the server again
-
-Note: this is encapsulated in script/bomb_and_rebuild.sh
 
 ### Dev tips
 
@@ -98,5 +63,10 @@ Then hit a brower make or whatever, and in the terminal where the start_server.s
 
 The "SQLite Professional Read-Only" OS X app is a nice free app to look at the data the app is generating in real time.
 
+When developing, it's nice to be able to destroy everything and start fresh when you are hacking:
 
+    bash script/bomb_and_rebuild.sh
 
+### What's Next?
+
+Get your hack on, :), have fun. If you do something cool with anything in here, consider sharing it on the [community site](community.sparkdevices.com).
