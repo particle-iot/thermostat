@@ -29,13 +29,21 @@
         },
 
         getGraphData: function (callback) {
-
-            //maybe like call an endpoint or something
-
-            var fakedata = this.makeFakeGraphData();
-            setTimeout(function () {
-                callback(fakedata);
-            }, 250);
+          $.when( 
+                   $.get("actual_temp_readings.json"),
+                   $.get("desired_temps.json")
+               )
+               .then(function (actual, desired) {
+                   callback({
+                       // jQuery returns something like [data payload, "success" jqr obj]
+                       actual: actual[0],
+                       desired: desired[0]
+                   })
+               });
+            // var fakedata = this.makeFakeGraphData();
+            // setTimeout(function () {
+            //     callback(fakedata);
+            // }, 250);
         },
 
         makeFakeGraphData: function () {

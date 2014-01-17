@@ -70,11 +70,11 @@ module DiyThermostat
     end
     config.thermostat_settings.device_id = ENV['SPARK_CORE_DEVICE_ID']
     config.thermostat_settings.access_token = ENV["SPARK_CORE_ACCESS_TOKEN"]
-    # config.thermostat_settings.sparkcore_username = "joe@spark.io"
-    # config.thermostat_settings.sparkcore_password = "oconom667!"
-    config.after_initialize do
-      ::ActualTempReadingPoller.perform_async
-    end
+    # config.thermostat_settings.sparkcore_username = "not used yet"
+    # config.thermostat_settings.sparkcore_password = "not used yet"
+    # config.after_initialize do
+    #   ::ActualTempReadingPoller.perform_async
+    # end
   end
 end
 

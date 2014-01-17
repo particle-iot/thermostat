@@ -14,6 +14,6 @@ class ActualTempReadingPoller
   rescue Exception => e
     puts "Failed due to #{e.message}"
   ensure
-    ActualTempReadingPoller.perform_in(15.seconds)
+    # ActualTempReadingPoller.perform_in(15.seconds)
   end
 end
