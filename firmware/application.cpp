@@ -7,6 +7,7 @@
 #define HEAT_PIN    A1
 #define POT_PIN     A2
 #define PIR_PIN     A3
+#define DESIRED_TEMP_FLASH_ADDRESS 0x80400
 
 Adafruit_8x8matrix matrix1;
 Adafruit_8x8matrix matrix2;
@@ -48,15 +49,16 @@ void displayTemperature(void)
 
 void saveTemperature()
 {
-  uint8_t values[2] = { 0, (uint8_t)desiredTemperature };
-  sFLASH_WriteBuffer(values, 0x80000, 2);
+  Serial.println("Saving temperature to flash");
+  sFLASH_WriteByte(DESIRED_TEMP_FLASH_ADDRESS, (uint8_t)desiredTemperature);
 }
 
 void loadTemperature()
 {
-  uint8_t values[2];
-  sFLASH_ReadBuffer(values, 0x80000, 2);
-  desiredTemperature = values[1];
+  Serial.println("Loading and displaying temperature from flash");
+  uint8_t temp;
+  sFLASH_ReadBuffer(&temp, DESIRED_TEMP_FLASH_ADDRESS, 1);
+  desiredTemperature = temp;
   displayTemperature();
 }
 
