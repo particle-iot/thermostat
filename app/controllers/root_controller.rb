@@ -22,6 +22,7 @@ class RootController < ApplicationController
           throw :done
         end
       else
+        raise "UNKNOWN CLAUSE #{params[:web_event][:event_type]}"
       end
     end
     render :json => return_this

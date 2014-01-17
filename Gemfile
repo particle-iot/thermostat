@@ -6,6 +6,7 @@ gem 'rails', '3.2.14'
 gem 'sqlite3' # todo replace with gem 'mongoid' or postgres
 gem 'jquery-rails'
 gem 'sidekiq'
+gem 'sidetiq'
 gem 'httparty'
 
 group :assets do

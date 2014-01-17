@@ -59,19 +59,42 @@ Instructions below are for OS X.
 
 In one terminal:
 
-    redis-server
+    redis-server /usr/local/etc/redis.conf
+
+(following instructions from homebrew install)
 
 In another terminal:
 
     script/start_server.sh
 
-* Note: You'll need to change the SPARK_CORE_DEVICE_ID and SPARK_CORE_ACCESS_TOKEN env vars to work for you.
+* Note: You might need to change the SPARK_CORE_DEVICE_ID and SPARK_CORE_ACCESS_TOKEN env vars in this .sh file
+  for this to work.
 
-Hit `http://localhost:5000` in a browser (NOTE, NOT :3000 like normal rails apps)
+Hit `http://localhost:5000` in a browser
 
-### Testing/Integrationy things
 
-### Summary/Retrospective time ( 10-11:30pm )
+### Bomb and rebuild dev environment
 
-Where we reflect on the badass shiz we did, write up blog stuff, etc
 
+Remove sqlite database:
+
+    rm db/development.sqlite3
+
+Flush everything from Redis
+
+    redis-cli FLUSHALL
+
+Rebuild the database
+
+    bundle exec rake db:migrate
+
+Fire up the server again
+
+Note: this is encapsulated in script/bomb_and_rebuild.sh
+
+### Dev tips
+
+You can put `binding.pry` pretty much anywhere in the code to bring up an interative debuging console.
+Then hit a brower make or whatever, and in the terminal where the start_server.sh script ran, you can type commands (like a var name) and see their value, etc.
+
+The "SQLite Professional Read-Only" OS X app is a nice free app to look at the data the app is generating in real time.
