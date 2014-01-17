@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140116175049) do
+ActiveRecord::Schema.define(:version => 20140116230829) do
+
+  create_table "actual_temp_readings", :force => true do |t|
+    t.float    "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "web_events", :force => true do |t|
     t.string   "name"

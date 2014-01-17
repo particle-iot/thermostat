@@ -4,6 +4,15 @@ module SparkModels
     debug_output $stderr # An HTTParty method
     base_uri DiyThermostat::Application.config.thermostat_settings.api_base_uri_prefix
     class << self
+      # curl https://api.spark.io/v1/devices/55ff6a064989495321172587/desired_temp\?access_token=8bfa9efde28f2d73017510a068ed6b9db05ad478
+      def read_current_temp
+        device_id    =  DiyThermostat::Application.config.thermostat_settings.device_id
+        access_token = DiyThermostat::Application.config.thermostat_settings.access_token
+        var_name = 'current_temp'
+        get("/v1/devices/#{device_id}/#{var_name}", :query => {
+          :access_token => access_token
+        })
+      end
       # DOCS implementation
       # curl https://api.spark.io/v1/devices/55ff6a064989495321172587/set_temp -d access_token=8bfaefde28f2d73017510a068ed6b9db05ad478 -d t=55
       def set_desired_temp(options={ })

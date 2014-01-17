@@ -1,4 +1,10 @@
 DiyThermostat::Application.routes.draw do
+  resources :actual_temp_readings, only: :index do
+    collection do
+      get :last
+    end
+  end
+
   root :to => 'root#index'
   post 'web_event' => "root#web_event"
 

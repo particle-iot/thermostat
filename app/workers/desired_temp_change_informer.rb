@@ -1,3 +1,4 @@
+# Takes events from the web and propogates them to the core
 class DesiredTempChangeInformer
   include Sidekiq::Worker
 

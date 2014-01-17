@@ -2,6 +2,7 @@ class RootController < ApplicationController
   def index
   end
 
+  # POSTed to when widgets change on the web site.
   def web_event
     return_this = {
       ok: nil
@@ -25,4 +26,5 @@ class RootController < ApplicationController
     end
     render :json => return_this
   end
+
 end
