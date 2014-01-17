@@ -3,6 +3,10 @@
 #include <math.h>
 
 #define TEMP_SENSOR 0x27
+#define FAN_PIN     A0
+#define HEAT_PIN    A1
+#define POT_PIN     A2
+#define PIR_PIN     A3
 
 Adafruit_8x8matrix matrix1;
 Adafruit_8x8matrix matrix2;
@@ -24,6 +28,8 @@ int desiredTemperature = 0;
 bool isHeatOn = false;
 bool isFanOn = false;
 
+int lastChangedPot = -20;
+
 void displayTemperature(void)
 {
   char ones = desiredTemperature % 10;
@@ -42,7 +48,7 @@ void displayTemperature(void)
 
 void saveTemperature()
 {
-  uint8_t values[2] = { 0, desiredTemperature & 0xff };
+  uint8_t values[2] = { 0, (uint8_t)desiredTemperature };
   sFLASH_WriteBuffer(values, 0x80000, 2);
 }
 
@@ -54,15 +60,20 @@ void loadTemperature()
   displayTemperature();
 }
 
-int setTemperature(String t)
+int setTemperature(int t)
+{
+  desiredTemperature = t;
+  displayTemperature();
+  saveTemperature();
+  return desiredTemperature;
+}
+
+int setTemperatureFromString(String t)
 {
   // TODO more robust error handling
   //      what if t is not a number
   //      what if t is outside a sensible range, e.g., 55-85
-  desiredTemperature = t.toInt();
-  displayTemperature();
-  saveTemperature();
-  return desiredTemperature;
+  return setTemperature(t.toInt());
 }
 
 void setupMatrix(Adafruit_8x8matrix m)
@@ -88,7 +99,7 @@ void setup()
   setupMatrix(matrix2);
   setupMatrix(matrix3);
 
-  Spark.function("set_temp", setTemperature);
+  Spark.function("set_temp", setTemperatureFromString);
 
   Spark.variable("current_temp", &currentTemperature, INT);
   Spark.variable("desired_temp", &desiredTemperature, INT);
@@ -97,10 +108,10 @@ void setup()
 
   loadTemperature();
 
-  pinMode(A0, OUTPUT);
-  pinMode(A1, OUTPUT);
-  pinMode(A2, INPUT);
-  pinMode(A3, INPUT);
+  pinMode(FAN_PIN, OUTPUT);
+  pinMode(HEAT_PIN, OUTPUT);
+  pinMode(POT_PIN, INPUT);
+  pinMode(PIR_PIN, INPUT);
 
   Serial.begin(9600);
 }
@@ -124,14 +135,34 @@ void loop()
     temp |= Wire.read() >> 2;
     temp *= 165;
     float fTemp = temp / 16383.0 - 40.0;
+    fTemp = fTemp * 1.8 + 32.0; // convert to fahrenheit
     currentTemperature = roundf(fTemp);
     Serial.print("Temperature is ");
     Serial.println(fTemp);
   }
 
-  int pot = analogRead(A2);
-  digitalWrite(A0, pot >> 11);
-  digitalWrite(A1, digitalRead(A3));
+  int pot = analogRead(POT_PIN);
+  if (1000 == wait)
+  {
+    Serial.print("Potentiometer reading: ");
+    Serial.println(pot);
+  }
+
+  // If user has adjusted the potentiometer
+  if (fabsf(pot - lastChangedPot) > 16)
+  {
+    // If we're not booting up
+    if (lastChangedPot >= 0)
+    {
+      setTemperature(roundf(pot * (40.0/4095.0) + 50.0));
+    }
+    lastChangedPot = pot;
+  }
+
+  digitalWrite(HEAT_PIN, desiredTemperature > currentTemperature);
+
+  // placeholder nonsense... probably need to attach interrupt to PIR
+  digitalWrite(FAN_PIN, digitalRead(PIR_PIN));
 
   --wait;
 }
