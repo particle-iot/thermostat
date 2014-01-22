@@ -76,3 +76,6 @@ Check out some of these other related open thermostat projects:
 * https://github.com/science/openthermo
 * http://www.adafruit.com/blog/2014/01/13/ardustat-web-controlled-wireless-arduino-based-thermostat-featuring-adafruit-cc3000-arduino/
 * http://thermostatmonitor.com/
+
+If someone out there wanted to formally takeover management of this project and the effort of building an easy-to-build-and-install Spark powered open-source thermostat, please contact joe@spark.io. This project was created and published mainly as a way to illustrate what is possible so it's currently very rough around the edges.  If someone wanted to put some serious cycles into making it truly awesome easy to use for others, we'd love to hear from you.
+
