@@ -70,3 +70,9 @@ When developing, it's nice to be able to destroy everything and start fresh when
 ### What's Next?
 
 Get your hack on, :), have fun. If you do something cool with anything in here, consider sharing it on the [community site](http://community.sparkdevices.com).
+
+Check out some of these other related open thermostat projects:
+
+* https://github.com/science/openthermo
+* http://www.adafruit.com/blog/2014/01/13/ardustat-web-controlled-wireless-arduino-based-thermostat-featuring-adafruit-cc3000-arduino/
+* http://thermostatmonitor.com/
