@@ -16,6 +16,16 @@ common I2C bus where pin D0 is SDA and pin D1 is SCL.
 The displays (from left to right) are on I2C addresses
 0x70, 0x71, and 0x72.
 
+### Schematic
+
+The details of the circuit design and implementation can be viewed via EAGLE (a free program for PCB design, [downloadable here](http://www.cadsoftusa.com/download-eagle/)).
+The eagle file is in the [hardware/EAGLE folder](hardware/EAGLE).
+
+### Physical Design
+
+3D model [sketch-up](http://www.sketchup.com/products/sketchup-make) files are available in [hardware/folder](hardware/CAD).
+If you're viewing this on GitHub (and using a modern browser), you can [view a 3D rendering](hardware/CAD/thermostat.stl) of it too.
+
 ## Firmware
 
 To build firmware for this product, you'll first need to be able to build Spark Core firmware by following the instructions
@@ -77,5 +87,5 @@ Check out some of these other related open thermostat projects:
 * http://www.adafruit.com/blog/2014/01/13/ardustat-web-controlled-wireless-arduino-based-thermostat-featuring-adafruit-cc3000-arduino/
 * http://thermostatmonitor.com/
 
-If someone out there wanted to formally takeover management of this project and the effort of building an easy-to-build-and-install Spark powered open-source thermostat, please contact joe@spark.io. This project was created and published mainly as a way to illustrate what is possible so it's currently very rough around the edges.  If someone wanted to put some serious cycles into making it truly awesome easy to use for others, we'd love to hear from you.
+If someone out there wanted to formally takeover management of this project and the effort of building an easy-to-build-and-install Spark powered open-source thermostat, please contact joe@spark.io. This project was created and published [in a day] mainly as a way to illustrate what is possible so it's currently very rough around the edges.  If someone wanted to put some serious cycles into making it truly awesome easy to use for others, we'd love to hear from you.
 
