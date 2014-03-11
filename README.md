@@ -1,7 +1,9 @@
 Spark Open Source Thermostat
 ============================
 
-This repo contains all of the software goodies produced in a Spark Team Hackaton described in detail on the [Spark Blog](http://blog.spark.io/2014/01/17/open-source-thermostat).
+This repo contains all of the software goodies produced in a 18-hour Spark Team Hackaton described in detail on the [Spark Blog](http://blog.spark.io/2014/01/17/open-source-thermostat).
+
+
 
 ## Hardware
 
@@ -32,6 +34,8 @@ To build firmware for this product, you'll first need to be able to build Spark 
 [shown here](https://github.com/spark/core-firmware).
 
 Once you have that working, you can simply copy all of the files from `/firmware` in this repo into `core-firmware/src` and run `make` again to build.  (i.e. `cp thermostat/firmware/* core-firmware/src`)
+
+Alternatively, you could use the [Spark Web IDE](https://www.spark.io).
 
 ## Server Setup
 
