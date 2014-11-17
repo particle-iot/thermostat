@@ -53,7 +53,7 @@ void saveTemperature()
   sFLASH_EraseSector(DESIRED_TEMP_FLASH_ADDRESS);
   Serial.println("Saving temperature to flash");
   uint8_t values[2] = { (uint8_t)desiredTemperature, 0 };
-  sFLASH_WritePage(values, DESIRED_TEMP_FLASH_ADDRESS, 2);
+  sFLASH_WriteBytes(values, DESIRED_TEMP_FLASH_ADDRESS, 2);
 }
 
 void loadTemperature()
