@@ -31,7 +31,7 @@ If you're viewing this on GitHub (and using a modern browser), you can [view a 3
 ## Firmware
 
 To build firmware for this product, you'll first need to be able to build Spark Core firmware by following the instructions
-[shown here](https://github.com/spark/core-firmware).
+[shown here](https://github.com/particle-iot/core-firmware).
 
 Once you have that working, you can simply copy all of the files from `/firmware` in this repo into `core-firmware/src` and run `make` again to build.  (i.e. `cp thermostat/firmware/* core-firmware/src`)
 
